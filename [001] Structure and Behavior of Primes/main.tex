@@ -1,0 +1,310 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{url}
+
+%%%%%%%%%%%%%  THEOREMS  %%%%%%%%%%%%%%%%%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem*{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+%%%%%%%%%%%%%%  PAGE SETUP %%%%%%%%%%%%%%%%%
+\usepackage[margin=1.5in]{geometry}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{Structure and Behavior of Primes}
+\rhead{ID 12108254}
+\cfoot{\thepage}
+
+%%%%%%%%%%%%% SHORTCUTS %%%%%%%%%%%%%%%%%%%%
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\cbrt}[1]{\sqrt[3]{#1}}
+\newcommand{\perfnum}{$2^{n-1}(2^n - 1)$}
+\newcommand{\fermlt}{k^{p} \equiv k \pmod{p}}
+\newcommand{\priment}{\left(1 + o(1)\right)\frac{n}{\ln n}}
+
+\begin{document}
+
+\title{A Comprehensive Dive into \\ the Structure and Behavior of Prime Numbers}
+\author{Genevieve Balestramon}
+\date{June 16, 2022}
+\maketitle
+
+\begin{abstract}
+	This paper presents a comprehensive exploration of prime numbers — their definition, fundamental properties, and the profound mathematical theorems and open conjectures that surround them. Beginning with Euclid's classical proof of the infinitude of primes, the discussion progresses through the Fundamental Theorem of Arithmetic, primality testing methods, the distribution of primes via the Prime Number Theorem, and landmark results on bounded prime gaps. The paper further examines the pseudorandom nature of primes and concludes with a survey of their far-reaching contributions to modern mathematics, cryptography, and science.
+\end{abstract}
+
+\begin{center}
+    \bigskip\bigskip\bigskip
+    In partial fulfillment of the course\\
+    \smallskip
+    Mathematics in the Modern World (S15C)\\
+    \bigskip\bigskip
+    De La Salle University -- Manila\\
+    \bigskip\bigskip\bigskip\bigskip\bigskip\bigskip
+    \bigskip\bigskip\bigskip\bigskip\bigskip\bigskip
+    Submitted to:\\
+    \textbf{Ms.\ Kristine Joy E. Carpio}
+    \bigskip\bigskip\bigskip
+\end{center}
+
+\newpage
+\tableofcontents
+\eject
+
+A \textbf{prime number} is a natural number greater than 1 that cannot be expressed as a product of two or more smaller natural numbers; it has exactly two distinct positive divisors: 1 and itself.
+
+\section{Introduction}
+
+\par Primes are those numbers divisible only by 1 and themselves. If we attempt to divide them by any other positive integer, the result is never a whole number. In analogy to a foundational concept in chemistry, prime numbers are akin to \textit{atomic elements} — indivisible and irreducible. Just as atoms serve as the building blocks of molecules in matter, prime numbers are the \textbf{fundamental building blocks of multiplication} in the natural numbers. Every composite number can be broken down into a unique product of primes, and no further reduction is possible.
+
+\par The study of prime numbers stretches back over two millennia, yet they continue to captivate mathematicians to this day. Their apparent simplicity — defined by a single divisibility condition — belies an extraordinarily rich and often mysterious mathematical structure. From the ancient Greeks to modern computational number theorists, the pursuit of understanding primes has driven some of the most profound discoveries in all of mathematics. This paper traces that journey, examining the key theorems, conjectures, and open problems that define our current understanding of prime numbers.
+
+\section{Proving Primality and the Infinitude of Primes}
+
+\par \textit{``God may not play dice with the universe, but something strange is going on with the prime numbers.''} \hfill --- Paul Erd\H{o}s \cite{erdos_quote}
+
+\bigskip
+
+\subsubsection{Fundamental Theorem of Arithmetic}
+\begin{theorem}
+	\label{thm:ftathm}
+	Every natural number greater than 1 can be represented uniquely as a product of prime numbers, up to the order of the factors.
+\end{theorem}
+
+\par This theorem was first rigorously established by \textbf{Carl Friedrich Gauss} in \textit{Disquisitiones Arithmeticae} \cite{gauss_disquisitiones_1801}, published in 1801; a full discussion appears in Weisstein \cite{weisstein_fta} and Hardy \& Wright \cite{hardy_intro_1979}. The analogy to chemistry is illuminating: just as every chemical compound can be expressed in terms of its constituent atoms, every natural number can be expressed as the product of primes, and this expression is unique. For instance, $60 = 2^2 \times 3 \times 5$, and no other combination of primes yields the same product. Different orderings such as $2 \times 3 \times 2 \times 5$ represent the same factorization and are considered trivially equivalent.
+
+\par These unique representations of the form $p_1^{a_1} \cdot p_2^{a_2} \cdots p_k^{a_k}$ are called the \textbf{prime factorization} of a number \cite{cuemath_primefact}. This is also the reason why 1 is not classified as a prime: if 1 were prime, factorizations would no longer be unique (e.g., $6 = 2 \times 3 = 1 \times 2 \times 3 = 1^2 \times 2 \times 3$, etc.), thereby violating the uniqueness guaranteed by the theorem.
+
+\subsection{Proofs of the Infinitude of Prime Numbers}
+
+\par The concept of prime numbers was studied rigorously by the ancient Greeks. Euclid, in his monumental work \textit{Elements} \cite{euclid_elements_ix20}, introduced the first known proof that there are infinitely many primes \cite{britannica_prime}. Since then, mathematicians have devised numerous alternative proofs --- each revealing a different facet of prime number theory.
+
+\subsubsection{Euclid's Theorem}
+\begin{theorem}
+	\label{thm:eucthm}
+	There are infinitely many prime numbers.
+\end{theorem}
+\begin{proof}
+	Suppose, for the sake of contradiction, that there are only finitely many prime numbers $p_1, p_2, \ldots, p_n$. Consider the number $k = p_1 \cdot p_2 \cdots p_n + 1$. Then $k$ is a natural number greater than 1. For each prime $p_i$ in our finite list, $p_i$ divides the product $p_1 \cdot p_2 \cdots p_n$ but does not divide $k$ (since dividing $k$ by $p_i$ leaves a remainder of 1). Therefore $k$ is either prime, or it is divisible by a prime not in our list. Either case contradicts the assumption that $p_1, p_2, \ldots, p_n$ comprises all primes. Hence, there are \textbf{infinitely} many primes.
+\end{proof}
+
+\par Euclid's proof is a masterclass in \textit{reductio ad absurdum}, or \textbf{proof by contradiction} — one of the most powerful and elegant tools in mathematics. While numerous direct proofs of the infinitude of primes have since been discovered (notably by Euler, Erd\H{o}s, and Furstenberg), none surpass Euclid's original for brevity and clarity. Crucially, however, the proof does not give us a formula for generating all primes; it merely guarantees their infinite existence.
+
+\subsubsection{Perfect Numbers and Mersenne Primes}
+
+\par In \textit{Elements}, Euclid also studied \textbf{Mersenne numbers}, which are integers of the form $2^n - 1$ \cite{wiki_euclid_euler}. He proved that if $2^n - 1$ is prime, then $2^{n-1}(2^n - 1)$ is a \textbf{perfect number} --- a positive integer equal to the sum of all its proper divisors \cite{utm_mersenne_conjecture}. For example, $2^2(2^3 - 1) = 28 = 1 + 2 + 4 + 7 + 14$. Euler later completed the characterization by proving that every even perfect number takes this form.
+
+\par Not all values of $2^n - 1$ are prime; a necessary (though not sufficient) condition is that $n$ itself be prime. For example, $2^{11} - 1 = 2047 = 23 \times 89$ is composite despite 11 being prime. The search for Mersenne primes remains an active area of computational mathematics. As of 2022, the largest known prime is $2^{82{,}589{,}933} - 1$, a number with 24{,}862{,}048 digits, discovered by the \textbf{Great Internet Mersenne Prime Search} (GIMPS) \cite{gimps_51st}.
+
+\par These discoveries, rooted in Euclid's original framework, laid the groundwork for many subsequent developments: the twin prime conjecture, Euler's totient function, the Riemann zeta function, and many more.
+
+\subsection{Finding and Counting Primes}
+
+\par Various methods have been proposed to locate primes within a specific range or identify their structural properties. However, no known deterministic formula can efficiently generate arbitrarily large primes with certainty. The fundamental challenge is that primes become increasingly sparse among large integers, making exhaustive search computationally prohibitive.
+
+\subsubsection{The Sieve of Eratosthenes}
+
+\par One of the oldest and most intuitive methods for finding primes is the \textbf{Sieve of Eratosthenes}, attributed to the ancient Greek mathematician Eratosthenes of Cyrene \cite{horsley_sieve_1772}. The procedure is as follows:
+
+\par Given a natural number $k$, list all integers from 2 to $k$. Begin by circling 2 (the smallest prime) and crossing out all its multiples. Proceed to the next un-crossed number, circle it as prime, and cross out all its multiples. Continue until no multiples remain to cross out. The circled numbers are precisely the primes up to $k$.
+
+\begin{theorem}
+	\label{thm:zsathm}
+	Given a natural number $m$, one can determine its primality by testing divisibility only by primes $p \leq \sqrt{m}$. If no such prime divides $m$, then $m$ is \textbf{prime}.
+\end{theorem}
+
+\par This theorem significantly reduces the computational effort required: to check whether $m$ is prime, one needs only test primes up to $\sqrt{m}$ rather than up to $m - 1$. While the Sieve of Eratosthenes is highly efficient for finding all primes below a moderate bound, it becomes memory-intensive for very large $k$ and is not suited to testing the primality of individual large numbers.
+
+\subsubsection{Fermat's Little Theorem}
+
+\par Fermat's Little Theorem is a cornerstone of number theory with wide-ranging applications, particularly in primality testing and cryptography. Euler later generalized the result by introducing the \textbf{Euler totient function} $\phi(n)$, which counts the number of integers in $\{1, \ldots, n\}$ that are coprime to $n$.
+
+\begin{theorem}
+	\label{thm:frmthm}
+	Let $p$ be a prime and $k$ be any positive integer. Then
+	$$\fermlt$$ \cite{weisstein_fermat_little,ireland_rosen_1990}
+\end{theorem}
+
+\par An equivalent formulation states that if $\gcd(k, p) = 1$, then $k^{p-1} \equiv 1 \pmod{p}$. This result is fundamental to the \textbf{Miller--Rabin primality test} and the \textbf{RSA cryptosystem}. As noted by Tao (2013), if $p$ is an $n$-digit number, then $k^p \bmod p$ can be computed efficiently using \textit{repeated squaring}: one first computes $k^{2^a} \bmod p$ for increasing values of $a$, then expands $p$ in binary and multiplies the appropriate residues together. This yields the result in $O(\log p)$ multiplications, making it computationally feasible even for very large primes.
+
+\par Euler extended these ideas further: while working with primes expressible in the form $xa^2 + yb^2$, he showed that if $k = x^{2^n} + b^{2^n}$, then all prime factors of $k$ are either 2 or of the form $2^{n+1}m + 1$ for some integer $m$. Using this result, he disproved \textbf{Fermat's conjecture} — the claim that all \textbf{Fermat numbers} $F_n = 2^{2^n} + 1$ are prime — by demonstrating that $F_5 = 2^{32} + 1 = 4{,}294{,}967{,}297$ is divisible by 641.
+
+\subsubsection{The Prime Number Theorem}
+
+\par Despite the absence of an exact formula for the sequence of primes, we possess a remarkably accurate asymptotic description of how primes are distributed.
+
+\begin{theorem}[Hadamard; de la Vall\'{e}e Poussin, 1896 \cite{hadamard_pnt_1896,delavallee_pnt_1896,wiki_pnt}]
+	\label{thm:prmthm}
+	Let $\pi(x)$ denote the number of primes less than or equal to $x$. Then
+	$$\pi(x) \sim \frac{x}{\ln x} \quad \text{as } x \to \infty$$
+	that is, $\dfrac{\pi(x)}{\,x/\ln x\,} \to 1$ as $x \to \infty$.
+\end{theorem}
+
+\par Intuitively, this means that among the integers near $x$, the probability that a randomly chosen number is prime is approximately $\frac{1}{\ln x}$. A more refined estimate, known as the \textbf{logarithmic integral}, gives:
+$$\pi(x) \approx \mathrm{Li}(x) = \int_2^x \frac{dt}{\ln t}$$
+which is substantially more accurate for large $x$. The Prime Number Theorem was conjectured by Gauss and Legendre around 1796 but remained unproven for a century until its simultaneous independent proof by Hadamard and de la Vall\'{e}e Poussin in 1896, both leveraging properties of the Riemann zeta function. Consequently, the probability that a randomly selected $d$-digit number is prime is approximately $\frac{1}{d \cdot \ln 10}$, which is useful for probabilistic primality search algorithms.
+
+\section{Structure and Distribution of Primes}
+
+\subsection{Patterns Among Prime Numbers}
+
+\par Despite their seemingly erratic distribution, prime numbers exhibit remarkable structural patterns when examined at the right scale. In 1742, Christian Goldbach wrote a letter to Leonhard Euler proposing one of the most famous — and still unresolved — conjectures in mathematics.
+
+\subsubsection{The Goldbach Conjecture}
+
+\begin{theorem}[Goldbach's Conjecture, 1742]
+	\label{thm:gldthm}
+	Every even integer greater than 2 can be expressed as the sum of two prime numbers.
+\end{theorem}
+
+\par This conjecture has been verified computationally for all even numbers up to $4 \times 10^{18}$ \cite{wiki_goldbach,aops_goldbach}, and is widely believed to be true, yet no general proof has been found. A key observation that motivates the conjecture is that all primes greater than 2 are odd; therefore, any sum of two odd primes is even. While this explains why such sums are always even, it does not prove that \textit{every} even number $\geq 4$ arises this way. The conjecture remains one of the oldest and most celebrated open problems in number theory.
+
+\par Progress has been made on related problems: \textbf{Vinogradov} \cite{vinogradov_goldbach_1937} proved that every sufficiently large \textit{odd} integer is the sum of three primes, and \textbf{Helfgott} \cite{helfgott_goldbach_2013} extended this to \textit{all} odd integers greater than 5, fully resolving the \textbf{weak (ternary) Goldbach conjecture}. The binary (strong) version for even numbers, however, remains open.
+
+\subsubsection{The Twin Prime Conjecture}
+
+\par \textbf{Twin primes} \cite{wiki_twinprime} are pairs of prime numbers $(p,\, p+2)$ that differ by exactly 2. The first few such pairs are $(3, 5)$, $(5, 7)$, $(11, 13)$, $(17, 19)$, and $(41, 43)$. These pairs become progressively rarer as numbers grow larger, yet numerical evidence strongly suggests they never cease entirely.
+
+\begin{theorem}[Twin Prime Conjecture; Polignac \cite{polignac_1849}, 1849]
+	\label{thm:twinthm}
+	There are infinitely many pairs of twin primes $(p,\, p + 2)$.
+\end{theorem}
+
+\par Despite extensive numerical verification and theoretical support, this conjecture remains unproven. The most significant breakthrough came in 2013, when \textbf{Yitang Zhang} proved the existence of infinitely many prime pairs with a \textit{bounded} gap (initially $\leq 70{,}000{,}000$), establishing the first finite upper bound for prime gaps infinitely often — a watershed result discussed further in Section~3.2. As of May 2022, the largest known twin prime pair has \textbf{7,823,741 digits}, discovered in 2016 by the PrimeGrid project.
+
+\subsubsection{Bertrand's Postulate}
+
+\par While the gaps between primes grow on average, they are never ``too large'' relative to the size of the numbers in question.
+
+\begin{theorem}[Bertrand's Postulate; proven by Chebyshev \cite{chebyshev_bertrand_1852}, 1852]
+	For every integer $n \geq 1$, there exists at least one prime $p$ satisfying $n < p \leq 2n$.
+\end{theorem}
+
+\par In other words, there is always a prime number between $k$ and $2k$ for all $k \geq 2$ \cite{utm_bertrand}. This result was first conjectured by Joseph Bertrand in 1845 and proved by Pafnuty Chebyshev in 1852. Paul Erd\H{o}s later found an elementary proof in 1932 \cite{erdos_bertrand_1932}, which became one of his earliest celebrated contributions. As Erd\H{o}s playfully commemorated: \textit{``Chebyshev said it and I say it again, there is always a prime between $N$ and $2N$.''} Bertrand's postulate has since been strengthened; for example, for $n \geq 25$, there is always a prime between $n$ and $\frac{6n}{5}$.
+
+\subsubsection{Euler's Product Formula}
+
+\par One of the most profound connections in number theory is the relationship between the distribution of primes and the behavior of certain infinite series. From the Fundamental Theorem of Arithmetic, Euler derived his celebrated product formula:
+
+$$\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p\;\text{prime}} \frac{1}{1 - p^{-s}}, \quad s > 1$$
+
+\par This identity --- known as the \textbf{Euler product} \cite{blog_euler_product,edwards_riemann_1974} --- encodes the multiplicative structure of the integers: the right-hand side is a product over all primes, while the left-hand side is a sum over all positive integers. As a striking consequence, by showing the left side diverges at $s = 1$ (the harmonic series), Euler gave an entirely new proof of the infinitude of primes. The formula also serves as the gateway to the Riemann zeta function and its deep connections to prime distribution.
+
+\subsubsection{The Riemann Zeta Function and the Riemann Hypothesis}
+
+\par The \textbf{Riemann zeta function} $\zeta(s)$, originally defined by Euler for real $s > 1$, was extended by Bernhard Riemann in 1859 to the entire complex plane (except $s = 1$). Riemann discovered that the \textit{non-trivial zeros} of $\zeta(s)$ --- the complex numbers $s$ where $\zeta(s) = 0$ and $0 < \mathrm{Re}(s) < 1$ --- are intimately connected to the precise distribution of prime numbers \cite{riemann_hypothesis_1859,britannica_riemann}.
+
+\par The function is defined for complex $s$ with $\mathrm{Re}(s) > 1$ as:
+$$\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = 1 + 2^{-s} + 3^{-s} + 4^{-s} + \cdots$$
+
+\par When $s = 1$, this reduces to the \textbf{harmonic series}, which diverges. The \textbf{Riemann Hypothesis} (1859) \cite{riemann_hypothesis_1859} --- one of the seven Millennium Prize Problems \cite{clay_millennium}, carrying a \$1{,}000{,}000 reward \cite{clay_riemann} --- conjectures that all non-trivial zeros of $\zeta(s)$ lie on the \textbf{critical line} $\mathrm{Re}(s) = \frac{1}{2}$. If true, this would imply a precise error bound of $O(\sqrt{x} \ln x)$ for $\pi(x)$, vastly refining the Prime Number Theorem. The zeros of $\zeta(s)$ are sometimes poetically called the ``\textit{music of the primes},'' as each zero corresponds to a harmonic correction to the distribution of primes, much like overtones in a musical chord \cite{edwards_riemann_1974}.
+
+\subsection{Bounded Gaps Between Primes}
+
+\par Carl Friedrich Gauss observed that the density of prime numbers decreases as integers grow larger, a fact formalized by the Prime Number Theorem. The average gap between primes near $x$ grows as $\ln x$. A natural question arises: do there always exist pairs of primes with \textit{bounded} (finite) gaps, no matter how far out on the number line one looks?
+
+\subsubsection{Zhang's Theorem: $N \leq 70{,}000{,}000$}
+
+\par In April 2013, \textbf{Yitang Zhang} of the University of New Hampshire published a landmark result that shocked the mathematical community by providing the first concrete finite bound on prime gaps.
+
+\begin{theorem}[Zhang, 2013--2014 \cite{zhang_primes_2014,aimath_zhang}]
+	\label{thm:zhngthm}
+	There exists a positive even integer $N < 70{,}000{,}000$ such that there are infinitely many pairs of primes $(p_a,\, p_b)$ with $p_b - p_a = N$.
+\end{theorem}
+
+\par Zhang's result was revolutionary because it established, for the first time, that prime gaps do not grow without bound along every arithmetic subsequence. Specifically, it showed that infinitely many prime pairs are separated by no more than $70{,}000{,}000$. Zhang's proof built on the work of Goldston, Pintz, and Y{\i}ld{\i}r{\i}m \cite{goldston_gpy_2009} (the GPY sieve), overcoming a key obstacle that had blocked progress for years. The bound of $70{,}000{,}000$ was chosen for convenience of proof, and mathematicians immediately began working to reduce it.
+
+\subsubsection{The Polymath Project: $N \leq 246$}
+
+\par Within weeks of Zhang's announcement, the open collaborative mathematics initiative \textbf{Polymath8} --- organized by Terence Tao and involving dozens of researchers worldwide \cite{wiki_polymath} --- set about dramatically reducing Zhang's bound. Using a combination of improved sieve methods and distribution estimates, the bound was progressively reduced:
+
+\begin{center}
+\begin{tabular}{cl}
+\toprule
+\textbf{Bound} & \textbf{Contributor(s)} \\
+\midrule
+$70{,}000{,}000$ & Zhang (May 2013) \\
+$4{,}680$ & Polymath8a (July 2013) \\
+$600$ & Maynard (November 2013) \\
+$246$ & Polymath8b (April 2014) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\par The current best unconditional bound stands at $N \leq 246$, achieved by the Polymath8b collaboration \cite{polymath8b_2014} building on the independent work of James Maynard \cite{maynard_primes_2015}, who introduced a more flexible multi-dimensional sieve. If the Elliott--Halberstam conjecture is assumed, the bound can be reduced further to $N \leq 6$, tantalizingly close to the twin prime conjecture's $N = 2$.
+
+\section{Pseudorandomness of Primes}
+
+\par \textit{``It is evident that the primes are randomly distributed but, unfortunately, we don't know what `random' means.''} \hfill --- R.~C.~Vaughan (1990)
+
+\bigskip
+
+\par The question of whether prime numbers follow any discernible pattern has fascinated and frustrated mathematicians for centuries. On one hand, primes are entirely \textit{deterministic}: given any integer, one can decide in finite time whether it is prime or composite. On the other hand, their distribution appears to mimic the behavior of a random sequence in a remarkable number of respects.
+
+\par The Prime Number Theorem, for instance, tells us that the ``probability'' that a number near $x$ is prime is approximately $\frac{1}{\ln x}$. This is consistent with a probabilistic model known as the \textbf{Cram\'{e}r model} \cite{cramer_model_1936}, proposed by Harald Cram\'{e}r in 1936, which models the primes as an independent random sequence where each integer $n$ is prime with probability $\frac{1}{\ln n}$. This model successfully predicts the correct order of magnitude for prime gaps and many other statistics.
+
+\par However, primes deviate from true randomness in subtle ways. The \textbf{Chebyshev bias} (or ``prime race'') is one such anomaly: primes are slightly more likely to appear in certain residue classes modulo a given number than others, at least in a logarithmic density sense. Another surprising discovery --- the \textbf{Lemke Oliver--Soundararajan phenomenon} \cite{lemke_oliver_2016} (2016) --- revealed a strong \textit{anti-correlation} between consecutive prime residues: for example, primes ending in 1 (mod 10) are less likely to be followed by another prime ending in 1 than expected under a truly random model.
+
+\par The most apt description of prime behavior is therefore \textbf{pseudorandom} \cite{tao_pseudorandom_2007}: the primes are completely determined by arithmetic rules, yet their distribution satisfies the same statistical laws expected of a truly random sequence to a high degree of approximation. This duality --- between deterministic definition and stochastic behavior --- lies at the heart of what makes prime numbers both practically useful and endlessly mysterious.
+
+\section{Significance and Contributions of Prime Numbers}
+
+\par We conclude with a discussion of the profound and wide-ranging impact that prime numbers have had — and continue to have — on mathematics, computer science, cryptography, and the natural sciences.
+
+\subsection{Foundations of Modern Cryptography}
+
+\par The most consequential application of prime numbers in the modern world is in \textbf{public-key cryptography}. The \textbf{RSA cryptosystem} \cite{rivest_rsa_1978} (Rivest, Shamir, and Adleman, 1977) is built entirely upon the computational difficulty of \textit{factoring} large integers. The core principle is asymmetric: multiplying two large primes $p$ and $q$ to obtain $n = pq$ is computationally trivial, but recovering $p$ and $q$ from $n$ alone is, to the best of current knowledge, computationally infeasible when $p$ and $q$ are sufficiently large (typically 1024--4096 bits each) \cite{koblitz_crypto_1994}. This hardness assumption underlies the security of RSA, which protects the vast majority of today's encrypted internet traffic, digital signatures, and secure communications.
+
+\par Similarly, the \textbf{Diffie--Hellman key exchange} protocol \cite{diffie_hellman_1976} relies on the difficulty of the \textbf{discrete logarithm problem} in a prime-order cyclic group. \textbf{Elliptic Curve Cryptography} (ECC) likewise operates over groups defined modulo large primes, offering equivalent security to RSA with smaller key sizes \cite{koblitz_crypto_1994}. Fermat's Little Theorem and Euler's totient function are indispensable tools in the mathematical analysis of all these systems.
+
+\subsection{Primality Testing and Computational Number Theory}
+
+\par Efficiently determining whether a large integer is prime is of critical importance for cryptographic key generation. The \textbf{Miller--Rabin primality test} \cite{miller_rabin_1980}, a probabilistic algorithm based on Fermat's Little Theorem, can determine with high confidence whether a number is prime in $O(k \log^2 n)$ time. The \textbf{AKS primality test} \cite{aks_2004} (Agrawal, Kayal, and Saxena, 2002) was a breakthrough theoretical result: the first \textit{deterministic} polynomial-time primality test, proving that the \textit{PRIMES} problem lies in the complexity class $\textbf{P}$.
+
+\par The ongoing search for ever-larger primes, coordinated by projects such as GIMPS, has also served as a benchmark for distributed computing. The discovery of each new Mersenne prime requires verifying a number with tens of millions of digits, pushing the boundaries of computational hardware and algorithm design.
+
+\subsection{Number Theory and Pure Mathematics}
+
+\par Prime numbers are central to virtually every branch of pure number theory. The \textbf{Riemann Hypothesis}, the most famous unsolved problem in mathematics, is fundamentally a statement about the distribution of primes. Its resolution — in either direction — would have sweeping consequences across analytic number theory, and potentially for computational complexity theory as well.
+
+\par Primes play a key role in \textbf{algebraic number theory}: the splitting behavior of primes in algebraic number fields is studied via ramification theory, and the \textbf{Langlands program} \cite{gelbart_langlands_1984} --- one of the grand unifying frameworks of modern mathematics --- connects Galois representations (built from primes) to automorphic forms and L-functions. The proof of \textbf{Fermat's Last Theorem} by Andrew Wiles (1995) \cite{wiles_flt_1995} relied fundamentally on properties of primes and the modularity of elliptic curves.
+
+\subsection{Primes in Nature and Science}
+
+\par Prime numbers appear in unexpected places in the natural world. The most well-known example is that of \textbf{periodical cicadas} (genus \textit{Magicicada}), which emerge in synchronized broods at intervals of 13 or 17 years --- both prime numbers \cite{yoshimura_cicadas_1997}. Biologists and mathematicians have proposed that this prime-period life cycle minimizes overlap with predator population cycles and with other cicada broods, providing an evolutionary advantage rooted in the mathematical properties of prime numbers \cite{cox_cicadas_1998}.
+
+\par Primes also appear in the structure of \textbf{phyllotaxis} (the arrangement of leaves and seeds in plants), in \textbf{crystallographic} symmetry groups, and have been proposed as a natural ``universal'' basis for potential interstellar communication signals, on the grounds that any sufficiently advanced intelligence would independently discover them.
+
+\subsection{Open Problems and Future Directions}
+
+\par Despite centuries of progress, the study of prime numbers remains far from complete. The following are among the most important unresolved questions in the field:
+
+\begin{itemize}
+    \item \textbf{The Riemann Hypothesis} (1859): Do all non-trivial zeros of $\zeta(s)$ lie on the critical line $\mathrm{Re}(s) = \frac{1}{2}$?
+    \item \textbf{The Twin Prime Conjecture}: Are there infinitely many primes $p$ such that $p + 2$ is also prime?
+    \item \textbf{The (Binary) Goldbach Conjecture} (1742): Is every even integer $> 2$ the sum of two primes?
+    \item \textbf{Legendre's Conjecture}: Is there always a prime between $n^2$ and $(n+1)^2$?
+    \item \textbf{The infinitude of Mersenne primes}: Are there infinitely many primes of the form $2^p - 1$?
+    \item \textbf{The bounded gap problem}: Can the Polymath8b bound of 246 be reduced to 2, thereby proving the twin prime conjecture?
+\end{itemize}
+
+\par Each of these problems, if resolved, would not only represent an enormous theoretical achievement but would likely have cascading effects on cryptography, computational complexity, and our fundamental understanding of the integers. The primes are deceptively simple to define, yet infinite in their complexity — and that is precisely what makes them one of the greatest treasures of mathematics.
+
+\medskip
+
+\newpage
+\bibliographystyle{unsrt}
+
+\bibliography{reference}
+
+\end{document}
+
