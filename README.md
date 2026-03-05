@@ -7,7 +7,7 @@
 |---|---|
 | **File** | [`main.tex`](./%5B001%5D%20Structure%20and%20Behavior%20of%20Primes/main.tex) |
 | **Bibliography** | [`reference.bib`](./%5B001%5D%20Structure%20and%20Behavior%20of%20Primes/reference.bib) |
-| **PDF** | [`main.pdf`](./%5B001%5D%20Structure%20and%20Behavior%20of%20Primes/main.pdf) |
+| **PDF** | [`Structure_and_Behavior_of_Primes_by_Vieve.pdf`](./%5B001%5D%20Structure%20and%20Behavior%20of%20Primes/output/Structure_and_Behavior_of_Primes_by_Vieve.pdf) |
 
 **Abstract:**
 This paper presents a comprehensive exploration of prime numbers — their definition, fundamental properties, and the profound mathematical theorems and open conjectures that surround them. Beginning with Euclid's classical proof of the infinitude of primes, the discussion progresses through the Fundamental Theorem of Arithmetic, primality testing methods, the distribution of primes via the Prime Number Theorem, and landmark results on bounded prime gaps. The paper further examines the pseudorandom nature of primes and concludes with a survey of their far-reaching contributions to modern mathematics, cryptography, and science.
